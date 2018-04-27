@@ -6,20 +6,20 @@ object NumberToStringService {
     if (num < 0 || num >= 10000) outOfRangeMessage
     else if (num == 0) "zero"
     else nameMap.foldLeft(List.empty[String], num) {
-      case ((string, n), (index, map)) =>
-        map.get(n / index) match {
-          case Some(name) =>
-            val remainder = n % index
+      case ((string, currentNum), (index, map)) =>
+        map.get(currentNum / index) match {
+          case Some(numberName) =>
+            val remainder = currentNum % index
 
-            val newName = if ((num >= 100) && (!(string contains "and") && (n < 100))) {
-              string :+ "and" :+ name
+            val newName = if ((num >= 100) && (!(string contains "and") && (currentNum < 100))) {
+              string :+ "and" :+ numberName
             } else {
-              string :+ name
+              string :+ numberName
             }
 
             (newName, remainder)
           case None =>
-            (string, n)
+            (string, currentNum)
         }
     }._1.mkString(" ")
 
